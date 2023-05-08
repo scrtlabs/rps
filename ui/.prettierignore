@@ -1,22 +1,8 @@
-# Build results
-/target
-Cargo.lock
-contract.wasm*
+###
+# Place your Prettier ignore content here
 
-# Cargo+Git helper file (https://github.com/rust-lang/cargo/blob/0.44.1/src/cargo/sources/git/utils.rs#L320-L327)
-.cargo-ok
-
-# Text file backups
-**/*.rs.bk
-
-# macOS
-.DS_Store
-
-# IDEs
-*.iml
-.idea
-
-
+###
+# .gitignore content is duplicated here due to https://github.com/prettier/prettier/issues/8506
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
@@ -108,4 +94,3 @@ sw.*
 
 # Vim swap files
 *.swp
-
