@@ -5,7 +5,7 @@ use crate::state::{
 };
 use cosmwasm_std::{Coin, DepsMut, Env, Event, MessageInfo, Response, StdError};
 
-pub fn try_new_game(
+pub fn new_game(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
@@ -38,7 +38,7 @@ pub fn try_new_game(
     Ok(resp.add_events(vec![new_evt]))
 }
 
-pub fn try_join(
+pub fn join_game(
     deps: DepsMut,
     info: MessageInfo,
     player_name: String,
@@ -74,7 +74,7 @@ pub fn try_join(
     }
 }
 
-pub fn try_submit_choice(
+pub fn submit_choice(
     deps: DepsMut,
     info: MessageInfo,
     env: Env,

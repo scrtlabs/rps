@@ -5,7 +5,7 @@ use cosmwasm_std::{
 
 use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
-use crate::executes::{try_join, try_new_game, try_submit_choice};
+use crate::executes::{join_game, new_game, submit_choice};
 use crate::queries::{query_game_state, query_who_won};
 
 #[entry_point]
@@ -26,13 +26,13 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, CustomContractError> {
     match msg {
-        ExecuteMsg::NewGame { player_name, bet } => try_new_game(deps, env, info, bet, player_name),
+        ExecuteMsg::NewGame { player_name, bet } => new_game(deps, env, info, bet, player_name),
         ExecuteMsg::JoinGame {
             game_code,
             player_name,
-        } => try_join(deps, info, player_name, game_code),
+        } => join_game(deps, info, player_name, game_code),
         ExecuteMsg::SubmitChoice { game_code, choice } => {
-            try_submit_choice(deps, info, env, game_code, choice)
+            submit_choice(deps, info, env, game_code, choice)
         }
     }
 }
