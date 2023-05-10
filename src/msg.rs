@@ -35,14 +35,14 @@ pub enum QueryMsg {
 }
 
 /// We define a custom struct for each query response
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct CheckWinner {
     pub winner: GameResult,
     pub address: Option<Addr>,
 }
 
 /// We define a custom struct for each query response
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct GameStateResponse {
     pub game: String,
     pub state: crate::state::GameStatus,

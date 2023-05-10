@@ -29,7 +29,7 @@ pub struct GameMetaInfo {
     pub winner: Option<GameResult>,
 }
 
-#[derive(Serialize, Deserialize, Copy, PartialEq, Clone, Debug, JsonSchema)]
+#[derive(Serialize, Deserialize, Copy, Eq, PartialEq, Clone, Debug, JsonSchema)]
 pub enum GameStatus {
     Initialized = 0,
     WaitingForPlayerToJoin,
@@ -84,11 +84,11 @@ impl Default for Player {
 
 impl Player {
     pub fn new(name: String, address: Addr) -> Player {
-        return Player {
+        Player {
             name,
             address,
             choice: None,
-        };
+        }
     }
 
     pub fn name(&self) -> &String {
