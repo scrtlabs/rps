@@ -53,7 +53,7 @@ pub fn try_join(
     match state_result {
         Ok(mut state) => {
             if let Some(some_bet) = &state.bet {
-                if !info.funds.contains(&some_bet) {
+                if !info.funds.contains(some_bet) {
                     return Err(Std(StdError::generic_err(
                         "Sent funds do not match the proposed bet",
                     )));
@@ -70,7 +70,7 @@ pub fn try_join(
 
             Ok(Response::new())
         }
-        _ => return Err(Std(StdError::generic_err("Game cannot be found"))),
+        _ => Err(Std(StdError::generic_err("Game cannot be found"))),
     }
 }
 
