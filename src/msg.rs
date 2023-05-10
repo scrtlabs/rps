@@ -21,6 +21,10 @@ pub enum ExecuteMsg {
         game_code: String,
         choice: RPS,
     },
+    PlayVsComputer {
+        choice: RPS,
+    },
+    
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]

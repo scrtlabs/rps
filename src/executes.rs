@@ -93,7 +93,12 @@ pub fn try_submit_choice(
 
     match state.status {
         // can only submit a choice in specific states
-        GameStatus::Started | GameStatus::Got1stChoiceWaitingFor2nd => {}
+        GameStatus::Started => {
+            // Keep it empty
+        }
+        GameStatus::Got1stChoiceWaitingFor2nd => {
+            // Fill it with the code below
+        }
         _ => return Err(Std(StdError::generic_err("Cannot submit choice right now"))),
     }
 

@@ -1,5 +1,5 @@
 use cosmwasm_std::{Env, MessageInfo};
-use secret_toolkit_crypto::Prng;
+use crate::rng::Prng;
 
 pub fn get_random_game_id(env: &Env, info: &MessageInfo) -> String {
 
