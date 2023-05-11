@@ -97,7 +97,7 @@ pub fn submit_choice(
         _ => return Err(Std(StdError::generic_err("Cannot submit choice right now"))),
     }
 
-    _set_choice_for_player(info, choice, &mut state)?;
+    set_choice_for_player(info, choice, &mut state)?;
     deps.api
         .debug(&format!("Done. Current player info: {:?}", &state.players));
 
@@ -121,7 +121,7 @@ pub fn submit_choice(
     Ok(Response::new())
 }
 
-fn _set_choice_for_player(
+fn set_choice_for_player(
     info: MessageInfo,
     choice: RPS,
     state: &mut RPSMatch,
