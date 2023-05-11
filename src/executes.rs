@@ -1,4 +1,4 @@
-use crate::errors::{CustomContractError, CustomContractError::Std};
+use crate::errors::{CustomContractError, CustomContractError::{Std, GameNotFound}};
 use crate::random::get_random_game_id;
 use crate::state::{
     calculate_winner, load_match_info, save_match_info, GameStatus, Player, RPSMatch, RPS,
@@ -70,7 +70,7 @@ pub fn join_game(
 
             Ok(Response::new())
         }
-        _ => Err(Std(StdError::generic_err("Game cannot be found"))),
+        _ => Err(GameNotFound),
     }
 }
 
@@ -102,7 +102,7 @@ pub fn submit_choice(
         _ => return Err(Std(StdError::generic_err("Cannot submit choice right now"))),
     }
 
-    _set_choice_for_player(info, choice, &mut state)?;
+    set_choice_for_player(info, choice, &mut state)?;
     deps.api
         .debug(&format!("Done. Current player info: {:?}", &state.players));
 
@@ -126,7 +126,7 @@ pub fn submit_choice(
     Ok(Response::new())
 }
 
-fn _set_choice_for_player(
+fn set_choice_for_player(
     info: MessageInfo,
     choice: RPS,
     state: &mut RPSMatch,
