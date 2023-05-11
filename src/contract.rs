@@ -5,7 +5,7 @@ use cosmwasm_std::{
 
 use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
-use crate::executes::{join_game, new_game, submit_choice};
+use crate::executes::{join_game, new_game, play_vs_computer, submit_choice};
 use crate::queries::{query_game_state, query_who_won};
 
 #[entry_point]
@@ -34,9 +34,8 @@ pub fn execute(
         ExecuteMsg::SubmitChoice { game_code, choice } => {
             submit_choice(deps, info, env, game_code, choice)
         }
-        ExecuteMsg::PlayVsComputer {choice: _} => {
-            // Complete with random computer choice
-            Ok(Response::new())
+        ExecuteMsg::PlayVsComputer { choice } => {
+            play_vs_computer(deps, env, choice)
         }
     }
 }

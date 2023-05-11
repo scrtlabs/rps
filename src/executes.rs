@@ -1,8 +1,6 @@
 use crate::errors::{CustomContractError, CustomContractError::{Std, GameNotFound}};
 use crate::random::get_random_game_id;
-use crate::state::{
-    calculate_winner, load_match_info, save_match_info, GameStatus, Player, RPSMatch, RPS,
-};
+use crate::state::{calculate_winner, load_match_info, save_match_info, GameStatus, Player, RPSMatch, RPS, GameResult};
 use cosmwasm_std::{Coin, DepsMut, Env, Event, MessageInfo, Response, StdError};
 
 pub fn new_game(
@@ -132,6 +130,31 @@ pub fn submit_choice(
     save_match_info(deps.storage, &game, state)?;
 
     Ok(Response::new())
+}
+
+pub fn play_vs_computer(
+    deps: DepsMut,
+    env: Env,
+    choice: RPS,
+) -> Result<Response, CustomContractError> {
+    let resp = Response::new();
+    let computer_choice = RPS::from_number(env.block.random.unwrap()[0]);
+
+    let result = calculate_winner(&choice, &computer_choice);
+
+    let winner = match result {
+        GameResult::Player1 => "You won!",
+        GameResult::Player2 => "Computer won =(",
+        GameResult::Tie => "Tie =/"
+    };
+
+    deps.api.debug(&format!("Result is: {:?}", winner));
+
+    let new_evt = Event::new("new_rps_vs_computer_game".to_string())
+        .add_attribute_plaintext("computer_choice", computer_choice.to_str())
+        .add_attribute_plaintext("result", winner);
+
+    Ok(resp.add_events(vec![new_evt]))
 }
 
 fn set_choice_for_player(
