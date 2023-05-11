@@ -1,4 +1,4 @@
-use crate::errors::{CustomContractError, CustomContractError::Std};
+use crate::errors::{CustomContractError, CustomContractError::{Std, GameNotFound}};
 use crate::random::get_random_game_id;
 use crate::state::{
     calculate_winner, load_match_info, save_match_info, GameStatus, Player, RPSMatch, RPS,
@@ -70,7 +70,7 @@ pub fn join_game(
 
             Ok(Response::new())
         }
-        _ => Err(Std(StdError::generic_err("Game cannot be found"))),
+        _ => Err(GameNotFound),
     }
 }
 
