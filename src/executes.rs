@@ -60,6 +60,14 @@ pub fn join_game(
                 }
             }
 
+            if state.players[0].address() == info.sender {
+                return Err(Std(StdError::generic_err(
+                    "You cannot play against yourself",
+                    // Otherwise, "submit_choice" will always update the first player's choice,
+                    // forever locking the bet. To unlock the bet, join with a second address
+                )));
+            }
+
             state.players[1] = Player::new(player_name, info.sender);
             state.next();
 

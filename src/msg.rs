@@ -24,7 +24,6 @@ pub enum ExecuteMsg {
     PlayVsComputer {
         choice: RPS,
     },
-    
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
