@@ -1,7 +1,7 @@
 <template>
     <v-row justify="center" align="center">
         <v-col cols="12" sm="8" md="6" align="center">
-            <v-card class="logo py-4 d-flex justify-center" style="flex-direction: column">
+            <v-card class="logo py-5 d-flex justify-center" style="flex-direction: column">
                 <div>
                     <img style="width: 100%" src="~/assets/logo.png" />
                 </div>
@@ -15,9 +15,14 @@
                       <div><a href="https://faucet.pulsar.scrttestnet.com/" target="_">Get some SCRT</a></div>
                     </template>
                 </div>
+            </v-card>
 
-                <!-- <v-btn @click="test()">TEST</v-btn> -->
+            <!-- <v-btn @click="test()">TEST</v-btn> -->
 
+            <v-divider class="my-5 mx-5"/>
+
+            <v-card class="py-5">
+                <div> Play vs Friend </div>
                 <template v-if="walletAddress !== ''">
                     <div style="margin-top: 20px">
                         <v-btn-toggle mandatory v-if="activeGameCode === ''" v-model="section" tile color="success accent-3" group>
@@ -110,24 +115,24 @@
                         </div>
                     </template>
                 </template>
+            </v-card>
 
-                <v-row class="my-10">
-                    <v-divider class="or-divider"/>
-                    <div style="margin-top: 10px ">OR</div>
-                    <v-divider class="or-divider"/>
-                </v-row>
+            <v-row class="my-2">
+                <v-divider class="or-divider"/>
+                <div style="margin-top: 10px ">OR</div>
+                <v-divider class="or-divider"/>
+            </v-row>
 
-                <v-card class="vs-computer d-flex justify-center" style="flex-direction: column" color="#444">
-                    <div> Play VS Computer </div>
-                    <div class="py-5">
-                        <template v-if="walletAddress === ''">
-                            <v-btn :disabled="walletIsConnecting" @click="connect()"> {{ walletIsConnecting ? 'Connecting...' : 'Connect your wallet' }}</v-btn>
-                        </template>
-                        <template v-else>
-                            <choice-block></choice-block>
-                        </template>
-                    </div>
-                </v-card>
+            <v-card class="py-5" style="flex-direction: column">
+                <div> Play VS Computer </div>
+                <div class="py-5">
+                    <template v-if="walletAddress === ''">
+                        <v-btn :disabled="walletIsConnecting" @click="connect()"> {{ walletIsConnecting ? 'Connecting...' : 'Connect your wallet' }}</v-btn>
+                    </template>
+                    <template v-else>
+                        <choice-block-vs-computer></choice-block-vs-computer>
+                    </template>
+                </div>
             </v-card>
         </v-col>
     </v-row>

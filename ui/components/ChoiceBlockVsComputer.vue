@@ -1,13 +1,13 @@
 <template>
     <div style="display: flex; justify-content: space-around; margin-top: 20px">
         <template v-if="!waitingForResponse">
-            <template v-if="selection === ''">
-                <v-btn :color="selection === 'Rock'      ? 'success' : ''"   @click="setChoice('Rock')"> Rock </v-btn>
-                <v-btn :color="selection === 'Paper'     ? 'success' : ''"   @click="setChoice('Paper')"> Paper </v-btn>
-                <v-btn :color="selection === 'Scissors'  ? 'success' : ''"   @click="setChoice('Scissors')"> Scissors </v-btn>
+            <template v-if="selection_vs_computer === ''">
+                <v-btn :color="selection_vs_computer === 'Rock'     ? 'success' : ''" @click="setChoice('Rock')"> Rock </v-btn>
+                <v-btn :color="selection_vs_computer === 'Paper'    ? 'success' : ''" @click="setChoice('Paper')"> Paper </v-btn>
+                <v-btn :color="selection_vs_computer === 'Scissors' ? 'success' : ''" @click="setChoice('Scissors')"> Scissors </v-btn>
             </template>
             <template v-else>
-                <div>Your choice: <b>{{ selection }}</b></div>
+                <div>Your choice: <b>{{ selection_vs_computer }}</b></div>
             </template>
 
         </template>
