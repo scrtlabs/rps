@@ -1,13 +1,13 @@
 <template>
     <div style="display: flex; justify-content: space-around; margin-top: 20px">
         <template v-if="!waitingForResponse">
-            <template v-if="selection_vs_computer === ''">
-                <v-btn :color="selection_vs_computer === 'Rock'     ? 'success' : ''" @click="setChoice('Rock')"> Rock </v-btn>
-                <v-btn :color="selection_vs_computer === 'Paper'    ? 'success' : ''" @click="setChoice('Paper')"> Paper </v-btn>
-                <v-btn :color="selection_vs_computer === 'Scissors' ? 'success' : ''" @click="setChoice('Scissors')"> Scissors </v-btn>
+            <template v-if="selection === ''">
+                <v-btn :color="selection === 'Rock'     ? 'success' : ''" @click="setChoice('Rock')"> Rock </v-btn>
+                <v-btn :color="selection === 'Paper'    ? 'success' : ''" @click="setChoice('Paper')"> Paper </v-btn>
+                <v-btn :color="selection === 'Scissors' ? 'success' : ''" @click="setChoice('Scissors')"> Scissors </v-btn>
             </template>
             <template v-else>
-                <div>Your choice: <b>{{ selection_vs_computer }}</b></div>
+                <div>Your choice: <b>{{ selection }}</b></div>
             </template>
 
         </template>
@@ -26,7 +26,7 @@ export default {
 
     data() {
         return {
-            selection_vs_computer: "",
+            selection: "",
             waitingForResponse: false
         }
     },
@@ -40,7 +40,7 @@ export default {
 
     methods: {
         async setChoice(choice) {
-            if (this.selection_vs_computer !== '') // We do not disable the button because we want to show its color
+            if (this.selection !== '') // We do not disable the button because we want to show its color
                 return;
 
             this.waitingForResponse = true;
@@ -49,6 +49,9 @@ export default {
                     play_vs_computer: { choice: choice.toLowerCase() },
                 }
 
+                console.log("executing to contract", process.env.NUXT_ENV_CONTRACT_ADDRESS);
+                console.log("contract code hash", process.env.NUXT_ENV_CONTRACT_CODE_HASH);
+                console.log("message", msg);
                 let tx = await this.secretjs.tx.compute.executeContract(
                     {
                         sender: this.walletAddress,
@@ -65,7 +68,7 @@ export default {
 
                 let result = handleTx(tx);
                 if (result.success) {
-                    this.selection_vs_computer = choice;
+                    this.selection = choice;
                     this.$emit("computer-responded", tx)
                 } else {
                     console.error("Error on transaction vs computer:", result.error);

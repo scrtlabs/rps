@@ -23,9 +23,7 @@ import { mapGetters } from 'vuex'
 import { handleTx } from "../helper"
 export default {
     props: ['gameCode'],
-    mounted() {
-
-    },
+    mounted() {},
 
     data() {
         return {
