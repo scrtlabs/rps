@@ -1,3 +1,4 @@
+import "./assets/index.css"
 const { TxResultCode } = require('secretjs')
 
 export const handleTx = (tx) => {

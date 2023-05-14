@@ -53,7 +53,6 @@
                             <div><b>Game Status:</b> {{ activeGameStatus }}</div>
                             <!-- <v-btn v-if="activeGameCode != ''" @click="getGameStatus()"> Game status </v-btn> -->
 
-
                             <choice-block v-if="allowChoiceSelection" :gameCode="activeGameCode"></choice-block>
 
                         </template>
@@ -71,7 +70,6 @@
                                 suffix="$SCRT"
                                 style="width: 70%"
                             ></v-text-field>
-
 
                             <div style="color: orange">
                                 {{ joingGameError === '' ? '&nbsp;' : 'Error: ' + joingGameError }}
@@ -112,14 +110,32 @@
                         </div>
                     </template>
                 </template>
+
+                <v-row class="my-10">
+                    <v-divider class="or-divider"/>
+                    <div style="margin-top: 10px ">OR</div>
+                    <v-divider class="or-divider"/>
+                </v-row>
+
+                <v-card class="vs-computer d-flex justify-center" style="flex-direction: column" color="#444">
+                    <div> Play VS Computer </div>
+                    <div class="py-5">
+                        <template v-if="walletAddress === ''">
+                            <v-btn :disabled="walletIsConnecting" @click="connect()"> {{ walletIsConnecting ? 'Connecting...' : 'Connect your wallet' }}</v-btn>
+                        </template>
+                        <template v-else>
+                            <choice-block></choice-block>
+                        </template>
+                    </div>
+                </v-card>
             </v-card>
         </v-col>
     </v-row>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { handleTx } from "../helper"
+import { mapGetters } from 'vuex';
+import { handleTx } from "../helper";
 
 const wsURL = process.env.NUXT_ENV_WS;
 let ws = new WebSocket(wsURL);
