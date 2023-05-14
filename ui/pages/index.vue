@@ -123,17 +123,7 @@
                 <v-divider class="or-divider"/>
             </v-row>
 
-            <v-card class="py-5" style="flex-direction: column">
-                <div> Play VS Computer </div>
-                <div class="py-5">
-                    <template v-if="walletAddress === ''">
-                        <v-btn :disabled="walletIsConnecting" @click="connect()"> {{ walletIsConnecting ? 'Connecting...' : 'Connect your wallet' }}</v-btn>
-                    </template>
-                    <template v-else>
-                        <choice-block-vs-computer></choice-block-vs-computer>
-                    </template>
-                </div>
-            </v-card>
+            <vs-computer-card :walletAddress="walletAddress"/>
         </v-col>
     </v-row>
 </template>
@@ -317,7 +307,6 @@ export default {
                 )
 
                 try {
-
                     console.log(tx.jsonLog[0].events)
                     for (const k in tx.jsonLog[0].events) {
                         console.log(tx.jsonLog[0].events[k].type)

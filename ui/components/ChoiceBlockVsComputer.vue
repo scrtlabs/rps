@@ -66,6 +66,9 @@ export default {
                 let result = handleTx(tx);
                 if (result.success) {
                     this.selection_vs_computer = choice;
+                    this.$emit("computer-responded", tx)
+                } else {
+                    console.error("Error on transaction vs computer:", result.error);
                 }
             } catch (err) {
                 console.error("Error sending transaction vs computer:", err);
