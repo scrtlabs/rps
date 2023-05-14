@@ -34,8 +34,9 @@ pub fn execute(
         ExecuteMsg::SubmitChoice { game_code, choice } => {
             submit_choice(deps, info, env, game_code, choice)
         }
-        ExecuteMsg::PlayVsComputer { choice } => {
-            play_vs_computer(deps, env, choice)
+        ExecuteMsg::PlayVsComputer {choice: _} => {
+            // Complete with random computer choice
+            Ok(Response::new())
         }
     }
 }

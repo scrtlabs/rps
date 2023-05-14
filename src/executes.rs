@@ -132,30 +132,14 @@ pub fn submit_choice(
     Ok(Response::new())
 }
 
-pub fn play_vs_computer(
-    deps: DepsMut,
-    env: Env,
-    choice: RPS,
-) -> Result<Response, CustomContractError> {
-    let resp = Response::new();
-    let computer_choice = RPS::from_number(env.block.random.unwrap()[0]);
-
-    let result = calculate_winner(&choice, &computer_choice);
-
-    let winner = match result {
-        GameResult::Player1 => "You won!",
-        GameResult::Player2 => "Computer won =(",
-        GameResult::Tie => "Tie =/"
-    };
-
-    deps.api.debug(&format!("Result is: {:?}", winner));
-
-    let new_evt = Event::new("new_rps_vs_computer_game".to_string())
-        .add_attribute_plaintext("computer_choice", computer_choice.to_str())
-        .add_attribute_plaintext("result", winner);
-
-    Ok(resp.add_events(vec![new_evt]))
-}
+// implement "vs computer" game mode
+// pub fn play_vs_computer(
+//     deps: DepsMut,
+//     env: Env,
+//     choice: RPS,
+// ) -> Result<Response, CustomContractError> {
+//
+// }
 
 fn set_choice_for_player(
     info: MessageInfo,
