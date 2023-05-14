@@ -14,7 +14,7 @@ pub fn new_game(
 ) -> Result<Response, CustomContractError> {
     let mut state = RPSMatch::default();
 
-    let game = get_random_game_id(&env, &info);
+    let game = get_random_game_id(env);
 
     if let Some(some_bet) = bet {
         if !info.funds.contains(&some_bet) {
