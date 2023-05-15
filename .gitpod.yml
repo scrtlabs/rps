@@ -1,13 +1,17 @@
 image: ghcr.io/scrtlabs/localsecret-gitpod:v1.9.0-beta.1
 
 tasks:
-  - command: |
+  - name: Faucet
+    command: |
       node /home/gitpod/faucet_server.js
-  - command: |
+  - name: Node
+    command: |
       cd /home/gitpod/ && SCRT_SGX_STORAGE=/opt/secret/.sgx_secrets /home/gitpod/bootstrap_init.sh false
-  - command: |
-      cd ui/ && npm i
-  - command: |
+  - name: Contract client GUI
+    command: |
+      cd ui/ && npm i && npm run dev
+  - name: Terminal
+    command: |
       echo "Hello and welcome to the Secret Network"
       
 vscode:
