@@ -7,19 +7,19 @@ tasks:
   - name: Node
     command: |
       cd /home/gitpod/ && SCRT_SGX_STORAGE=/opt/secret/.sgx_secrets /home/gitpod/bootstrap_init.sh false
-  - name: Contract client GUI
-    command: |
-      cd ui/ && npm i && npm run dev
+#  - name: Contract client GUI
+#    command: |
+#      cd ui/ && npm i && npm run dev
   - name: Terminal
     command: |
       echo "Hello and welcome to the Secret Network"
-      
+
 vscode:
   extensions:
     - rust-lang.rust
     - serayuzgur.crates
     - bungcip.better-toml
-      
+
 jetbrains:
   intellij:
     plugins:
