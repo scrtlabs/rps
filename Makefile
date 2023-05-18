@@ -12,11 +12,11 @@ test: unit-test
 .PHONY: set-env
 set-env:
 	echo "NUXT_ENV_REST_URL=$$(gp url 1317)" > ui/.env ;\
-	echo "NUXT_ENV_RPC_URL=$$(gp url 26657)" > ui/.env ;\
-	echo "NUXT_ENV_CHAIN_ID=secretdev-1" > ui/.env ;\
-	echo "NUXT_ENV_WS=ws://$$(gp url 1317)/websocket" > ui/.env ;\
-	echo "NUXT_ENV_CONTRACT_ADDRESS=secret1mfk7n6mc2cg6lznujmeckdh4x0a5ezf6hx6y8q" > ui/.env ;\
-	echo "NUXT_ENV_CONTRACT_CODE_HASH=44c94914bd0e924c166c07b79f948858b925d8c4c98cbc889887217095fc867e" > ui/.env
+	echo "NUXT_ENV_RPC_URL=$$(gp url 26657)" >> ui/.env ;\
+	echo "NUXT_ENV_CHAIN_ID=secretdev-1" >> ui/.env ;\
+	echo "NUXT_ENV_WS=ws://$$(gp url 1317)/websocket" >> ui/.env ;\
+	echo "NUXT_ENV_CONTRACT_ADDRESS=secret1mfk7n6mc2cg6lznujmeckdh4x0a5ezf6hx6y8q" >> ui/.env ;\
+	echo "NUXT_ENV_CONTRACT_CODE_HASH=44c94914bd0e924c166c07b79f948858b925d8c4c98cbc889887217095fc867e" >> ui/.env
 
 .PHONY: unit-test
 unit-test:
@@ -25,8 +25,8 @@ unit-test:
 # This is a local build with debug-prints activated. Debug prints only show up
 # in the local development chain (see the `start-server` command below)
 # and mainnet won't accept contracts built with the feature enabled.
-.PHONY: build _build set-env
-build: _build compress-wasm
+.PHONY: build _build
+build: set-env _build compress-wasm
 _build:
 	RUSTFLAGS='-C link-arg=-s' cargo build --release --target wasm32-unknown-unknown
 
@@ -77,11 +77,11 @@ instantiate-local:
 
 .PHONY: cli-store-contract
 cli-store-contract:
-	secretcli tx compute store -y --from a --gas 500000000 contract.wasm.gz
+	secretd tx compute store -y --from a --gas 500000000 contract.wasm.gz
 
 .PHONY: cli-instantiate
 cli-instantiate:
-	secretcli tx compute instantiate 1 '{}' -y  --from a --gas 5000000 --label yo
+	secretd tx compute instantiate 1 '{}' -y  --from a --gas 5000000 --label yo
 
 .PHONY: clean
 clean:
