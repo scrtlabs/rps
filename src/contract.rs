@@ -5,7 +5,7 @@ use cosmwasm_std::{
 
 use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
-use crate::executes::{join_game, new_game, play_vs_computer, submit_choice};
+use crate::executes::{join_game, new_game, submit_choice};
 use crate::queries::{query_game_state, query_who_won};
 
 #[entry_point]
