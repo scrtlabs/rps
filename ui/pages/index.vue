@@ -339,11 +339,13 @@ export default {
                         }
                     }
                 } catch (err) {
+                    this.newGameError = 'Contract probably does not exist in that address; check log for details';
                     console.log(err)
                 }
 
                 console.log(tx)
             } catch (err) {
+                this.newGameError = 'Contract probably does not exist in that address; check log for details';
                 console.log(err)
             }
             this.isCreatingNewGame = false
