@@ -65,4 +65,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    gitpod_workspace_cluster_host: process.env.GITPOD_WORKSPACE_CLUSTER_HOST,
+    gitpod_workspace_id: process.env.GITPOD_WORKSPACE_ID,
+  }
 }

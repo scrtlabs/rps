@@ -29,7 +29,7 @@ export const handleTx = (tx) => {
 }
 
 export const gitpodUrlWithPort = (port) => {
-    const gitpodUrl = process.env.GITPOD_WORKSPACE_ID + "." + process.env.GITPOD_WORKSPACE_CLUSTER_HOST;
+    const gitpodUrl = process.env.gitpod_workspace_id + "." + process.env.gitpod_workspace_cluster_host;
     return "https://" + port.toString() + "-" + gitpodUrl;
 };
 
