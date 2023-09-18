@@ -7,7 +7,7 @@ tasks:
   - name: Local Secret Node
     command: |
       # add a line to bootstrap_init.sh that adds a line to config.toml to allow cors
-      sed -i '86 i sed -i -e \'\''s/cors_allowed_origins = \\[\\]/cors_allowed_origin = \\[\\"\\*\\"\\]/\'\'' /home/gitpod/.secretd/config/config.toml' ./home/gitpod/bootstrap_init.sh
+      sed -i '86 i sed -i -e '\''s/cors_allowed_origins = \\[\\]/cors_allowed_origin = \\[\\"\\*\\"\\]/'\'' /home/gitpod/.secretd/config/config.toml' ./home/gitpod/bootstrap_init.sh
       cd /home/gitpod/ && SCRT_SGX_STORAGE=/opt/secret/.sgx_secrets /home/gitpod/bootstrap_init.sh false
   - name: Open Terminal
     command: |
