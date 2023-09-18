@@ -35,8 +35,8 @@ export const gitpodUrlWithPort = (port) => {
 
 export const keplrSuggestChain = async () => {
     await window.keplr.experimentalSuggestChain({
-        rpc: process.env.NUXT_ENV_RPC_URL || gitpodUrlWithPort(1317),
-        rest: process.env.NUXT_ENV_REST_URL || gitpodUrlWithPort(26657),
+        rpc: process.env.NUXT_ENV_RPC_URL || gitpodUrlWithPort(26657),
+        rest: process.env.NUXT_ENV_REST_URL || gitpodUrlWithPort(1317),
         chainId: process.env.NUXT_ENV_CHAIN_ID,
         chainName: process.env.NUXT_ENV_CHAIN_ID,
         stakeCurrency: {
