@@ -28,10 +28,15 @@ export const handleTx = (tx) => {
     return { success: result, error: error }
 }
 
+export const gitpodUrlWithPort = (port) => {
+    const gitpodUrl = process.env.GITPOD_WORKSPACE_URL;
+    return "https://" + port.toString() + "-" + gitpodUrl?.split("//")[1];
+};
+
 export const keplrSuggestChain = async () => {
     await window.keplr.experimentalSuggestChain({
-        rpc: process.env.NUXT_ENV_RPC_URL,
-        rest: process.env.NUXT_ENV_REST_URL,
+        rpc: process.env.NUXT_ENV_RPC_URL || gitpodUrlWithPort(1317),
+        rest: process.env.NUXT_ENV_REST_URL || gitpodUrlWithPort(26657),
         chainId: process.env.NUXT_ENV_CHAIN_ID,
         chainName: process.env.NUXT_ENV_CHAIN_ID,
         stakeCurrency: {
