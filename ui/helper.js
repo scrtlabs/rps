@@ -1,3 +1,4 @@
+import "./assets/index.css"
 const { TxResultCode } = require('secretjs')
 
 export const handleTx = (tx) => {
@@ -27,10 +28,15 @@ export const handleTx = (tx) => {
     return { success: result, error: error }
 }
 
+export const gitpodUrlWithPort = (port) => {
+    const gitpodUrl = process.env.gitpod_workspace_id + "." + process.env.gitpod_workspace_cluster_host;
+    return "https://" + port.toString() + "-" + gitpodUrl;
+};
+
 export const keplrSuggestChain = async () => {
     await window.keplr.experimentalSuggestChain({
-        rpc: process.env.NUXT_ENV_RPC_URL,
-        rest: process.env.NUXT_ENV_REST_URL,
+        rpc: process.env.NUXT_ENV_RPC_URL || gitpodUrlWithPort(26657),
+        rest: process.env.NUXT_ENV_REST_URL || gitpodUrlWithPort(1317),
         chainId: process.env.NUXT_ENV_CHAIN_ID,
         chainName: process.env.NUXT_ENV_CHAIN_ID,
         stakeCurrency: {

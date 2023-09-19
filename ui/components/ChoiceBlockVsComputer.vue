@@ -2,9 +2,9 @@
     <div style="display: flex; justify-content: space-around; margin-top: 20px">
         <template v-if="!waitingForResponse">
             <template v-if="selection === ''">
-                <v-btn :color="selection === 'Rock'      ? 'success' : ''"   @click="setChoice('Rock')"> Rock </v-btn>
-                <v-btn :color="selection === 'Paper'     ? 'success' : ''"   @click="setChoice('Paper')"> Paper </v-btn>
-                <v-btn :color="selection === 'Scissors'  ? 'success' : ''"   @click="setChoice('Scissors')"> Scissors </v-btn>
+                <v-btn :color="selection === 'Rock'     ? 'success' : ''" @click="setChoice('Rock')"> Rock </v-btn>
+                <v-btn :color="selection === 'Paper'    ? 'success' : ''" @click="setChoice('Paper')"> Paper </v-btn>
+                <v-btn :color="selection === 'Scissors' ? 'success' : ''" @click="setChoice('Scissors')"> Scissors </v-btn>
             </template>
             <template v-else>
                 <div>Your choice: <b>{{ selection }}</b></div>
@@ -12,17 +12,16 @@
 
         </template>
         <template v-else>
-            <div>Please wait...</div>
+            <div>Waiting for Tx...</div>
         </template>
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
 import { handleTx } from "../helper"
+
 export default {
-    props: ['gameCode'],
     mounted() {},
 
     data() {
@@ -47,9 +46,12 @@ export default {
             this.waitingForResponse = true;
             try {
                 let msg = {
-                    submit_choice: { game_code: this.gameCode, choice: choice.toLowerCase() },
+                    play_vs_computer: { choice: choice.toLowerCase() },
                 }
 
+                console.log("executing to contract", process.env.NUXT_ENV_CONTRACT_ADDRESS);
+                console.log("contract code hash", process.env.NUXT_ENV_CONTRACT_CODE_HASH);
+                console.log("message", msg);
                 let tx = await this.secretjs.tx.compute.executeContract(
                     {
                         sender: this.walletAddress,
@@ -67,9 +69,12 @@ export default {
                 let result = handleTx(tx);
                 if (result.success) {
                     this.selection = choice;
+                    this.$emit("computer-responded", tx)
+                } else {
+                    console.error("Error on transaction vs computer:", result.error);
                 }
             } catch (err) {
-
+                console.error("Error sending transaction vs computer:", err);
             }
             this.waitingForResponse = false;
         },

@@ -1,7 +1,7 @@
 <template>
     <v-row justify="center" align="center">
         <v-col cols="12" sm="8" md="6" align="center">
-            <v-card class="logo py-4 d-flex justify-center" style="flex-direction: column">
+            <v-card class="logo py-5 d-flex justify-center" style="flex-direction: column">
                 <div>
                     <img style="width: 100%" src="~/assets/logo.png" />
                 </div>
@@ -11,13 +11,28 @@
                         <v-btn :disabled="walletIsConnecting" @click="connect()"> {{ walletIsConnecting ? 'Connecting...' : 'Connect your wallet' }}</v-btn>
                     </template>
                     <template v-else>
-                      <div>Address: {{ shortWalletAddress }}</div>
+                        <v-row class="my-3 px-5" justify="center" align="center">
+                            <div class="mx-1">
+                                Address:  {{ walletAddress }}
+                            </div>
+                            <button @click="copy">
+                                <img class="logo py-1 d-flex" src="~/assets/copy-icon.png" ref="address"/>
+                            </button>
+                            <div class="tooltip_layout">
+                                <span class="tooltip_content" :class="{'show': tooltip_flag}">Copied!</span>
+                            </div>
+                        </v-row>
                       <div><a href="https://faucet.pulsar.scrttestnet.com/" target="_">Get some SCRT</a></div>
                     </template>
                 </div>
+            </v-card>
 
-                <!-- <v-btn @click="test()">TEST</v-btn> -->
+            <!-- <v-btn @click="test()">TEST</v-btn> -->
 
+            <v-divider class="my-5 mx-5"/>
+
+            <v-card class="py-5">
+                <div> Play vs Friend </div>
                 <template v-if="walletAddress !== ''">
                     <div style="margin-top: 20px">
                         <v-btn-toggle mandatory v-if="activeGameCode === ''" v-model="section" tile color="success accent-3" group>
@@ -53,7 +68,6 @@
                             <div><b>Game Status:</b> {{ activeGameStatus }}</div>
                             <!-- <v-btn v-if="activeGameCode != ''" @click="getGameStatus()"> Game status </v-btn> -->
 
-
                             <choice-block v-if="allowChoiceSelection" :gameCode="activeGameCode"></choice-block>
 
                         </template>
@@ -71,7 +85,6 @@
                                 suffix="$SCRT"
                                 style="width: 70%"
                             ></v-text-field>
-
 
                             <div style="color: orange">
                                 {{ joingGameError === '' ? '&nbsp;' : 'Error: ' + joingGameError }}
@@ -113,13 +126,21 @@
                     </template>
                 </template>
             </v-card>
+
+            <v-row class="my-2">
+                <v-divider class="or-divider"/>
+                <div style="margin-top: 10px ">OR</div>
+                <v-divider class="or-divider"/>
+            </v-row>
+
+            <vs-computer-card :walletAddress="walletAddress"/>
         </v-col>
     </v-row>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { handleTx } from "../helper"
+import { mapGetters } from 'vuex';
+import { handleTx } from "../helper";
 
 const wsURL = process.env.NUXT_ENV_WS;
 let ws = new WebSocket(wsURL);
@@ -193,6 +214,7 @@ export default {
             validBetRule: [(v) => (v && v >= 1) || 'Minimum bet is 1 $SCRT'],
             validNameRule: [(v) => (v && v.trim().length > 0) || 'Name cannot be empty'],
             validCodeRule: [(v) => (v && v.trim().length > 0) || 'Game code cannot be empty'],
+            tooltip_flag: false,
 
             winner: undefined
         }
@@ -228,7 +250,15 @@ export default {
             });
 
             console.log(test);
+        },
 
+        async copy() {
+            await navigator.clipboard.writeText(this.walletAddress);
+            this.tooltip_flag = true
+            setTimeout(() => {
+                this.tooltip_flag = false
+            }, 1000)
+            console.log("done copying");
         },
 
         restart() {
@@ -296,7 +326,6 @@ export default {
                 )
 
                 try {
-
                     console.log(tx.jsonLog[0].events)
                     for (const k in tx.jsonLog[0].events) {
                         console.log(tx.jsonLog[0].events[k].type)
@@ -310,11 +339,13 @@ export default {
                         }
                     }
                 } catch (err) {
+                    this.newGameError = 'Contract probably does not exist in that address; check log for details';
                     console.log(err)
                 }
 
                 console.log(tx)
             } catch (err) {
+                this.newGameError = 'Contract probably does not exist in that address; check log for details';
                 console.log(err)
             }
             this.isCreatingNewGame = false

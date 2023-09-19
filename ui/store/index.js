@@ -1,6 +1,5 @@
 import { Wallet, SecretNetworkClient, MsgSend, MsgMultiSend } from "secretjs";
-import { keplrSuggestChain } from "../helper"
-
+import { keplrSuggestChain, gitpodUrlWithPort } from "../helper"
 
 export const state = () => ({
     walletAddress: '',
@@ -12,8 +11,6 @@ export const state = () => ({
     walletIsConnecting: false
 
 });
-
-
 
 export const mutations = {
     setLoading(state, loading) {
@@ -77,7 +74,7 @@ export const actions = {
                     commit('setWalletAddress', walletAddress);
 
                     let secretJS = new SecretNetworkClient({
-                        url: process.env.NUXT_ENV_REST_URL,
+                        url: process.env.NUXT_ENV_REST || gitpodUrlWithPort(1317),
                         chainId: process.env.NUXT_ENV_CHAIN_ID,
                         wallet: keplrOfflineSigner,
                         walletAddress: walletAddress,

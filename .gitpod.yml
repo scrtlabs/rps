@@ -1,19 +1,24 @@
 image: ghcr.io/scrtlabs/localsecret-gitpod:v1.9.0-beta.1
 
 tasks:
-  - command: |
+  - name: Faucet
+    command: |
       node /home/gitpod/faucet_server.js
-  - command: |
+  - name: Local Secret Node
+    command: |
+      # add a line to bootstrap_init.sh that adds a line to config.toml to allow cors
+      sed -i '86 i sed -i -e '\''s/cors_allowed_origins = \\[\\]/cors_allowed_origins = \\[\\"\\*\\"\\]/'\'' /home/gitpod/.secretd/config/config.toml' /home/gitpod/bootstrap_init.sh
       cd /home/gitpod/ && SCRT_SGX_STORAGE=/opt/secret/.sgx_secrets /home/gitpod/bootstrap_init.sh false
-  - command: |
+  - name: Open Terminal
+    command: |
       echo "Hello and welcome to the Secret Network"
-      
+
 vscode:
   extensions:
     - rust-lang.rust
     - serayuzgur.crates
     - bungcip.better-toml
-      
+
 jetbrains:
   intellij:
     plugins:
@@ -24,17 +29,22 @@ jetbrains:
 ports:
   - port: 26657
     onOpen: ignore
+    visibility: public
   - port: 9090-9091
     onOpen: ignore
   - port: 5000
+    visibility: public
     onOpen: ignore
   - port: 1317
     onOpen: ignore
+    visibility: public
   - port: 3000
     onOpen: ignore
+    visibility: public
   - port: 24000
     onOpen: ignore
   - port: 6060
     onOpen: ignore
   - port: 1316
     onOpen: ignore
+    visibility: public

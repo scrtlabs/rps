@@ -15,6 +15,24 @@ pub enum RPS {
     Scissors,
 }
 
+impl RPS {
+    pub fn from_number(number: u8) -> Self {
+        match number % 3 {
+            0 => Self::Rock,
+            1 => Self::Paper,
+            _ => Self::Scissors,
+        }
+    }
+
+    pub fn to_str(&self) -> &str {
+        match self {
+            Self::Rock => "rock",
+            Self::Paper => "paper",
+            Self::Scissors => "scissors",
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug, Default, JsonSchema)]
 pub struct RPSMatch {
     pub meta: GameMetaInfo,

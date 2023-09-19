@@ -1,8 +1,6 @@
 use crate::errors::{CustomContractError, CustomContractError::{Std, GameNotFound}};
 use crate::random::get_random_game_id;
-use crate::state::{
-    calculate_winner, load_match_info, save_match_info, GameStatus, Player, RPSMatch, RPS,
-};
+use crate::state::{calculate_winner, load_match_info, save_match_info, GameStatus, Player, RPSMatch, RPS, GameResult};
 use cosmwasm_std::{Coin, DepsMut, Env, Event, MessageInfo, Response, StdError};
 
 pub fn new_game(
@@ -14,7 +12,7 @@ pub fn new_game(
 ) -> Result<Response, CustomContractError> {
     let mut state = RPSMatch::default();
 
-    let game = get_random_game_id(&env, &info);
+    let game = get_random_game_id(env);
 
     if let Some(some_bet) = bet {
         if !info.funds.contains(&some_bet) {
@@ -60,6 +58,14 @@ pub fn join_game(
                 }
             }
 
+            if state.players[0].address() == &info.sender {
+                return Err(Std(StdError::generic_err(
+                    "You cannot play against yourself",
+                    // Otherwise, "submit_choice" will always update the first player's choice,
+                    // forever locking the bet. To unlock the bet, join with a second address
+                )));
+            }
+
             state.players[1] = Player::new(player_name, info.sender);
             state.next();
 
@@ -93,7 +99,12 @@ pub fn submit_choice(
 
     match state.status {
         // can only submit a choice in specific states
-        GameStatus::Started | GameStatus::Got1stChoiceWaitingFor2nd => {}
+        GameStatus::Started => {
+            // Keep it empty
+        }
+        GameStatus::Got1stChoiceWaitingFor2nd => {
+            // Fill it with the code below
+        }
         _ => return Err(Std(StdError::generic_err("Cannot submit choice right now"))),
     }
 
@@ -120,6 +131,15 @@ pub fn submit_choice(
 
     Ok(Response::new())
 }
+
+// implement "vs computer" game mode
+// pub fn play_vs_computer(
+//     deps: DepsMut,
+//     env: Env,
+//     choice: RPS,
+// ) -> Result<Response, CustomContractError> {
+//
+// }
 
 fn set_choice_for_player(
     info: MessageInfo,
