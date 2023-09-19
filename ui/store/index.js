@@ -74,7 +74,7 @@ export const actions = {
                     commit('setWalletAddress', walletAddress);
 
                     let secretJS = new SecretNetworkClient({
-                        url: process.env.NUXT_ENV_REST || gitpodUrlWithPort(1317),
+                        url: process.env.NUXT_ENV_REST_URL || gitpodUrlWithPort(1317),
                         chainId: process.env.NUXT_ENV_CHAIN_ID,
                         wallet: keplrOfflineSigner,
                         walletAddress: walletAddress,
