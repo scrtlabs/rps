@@ -30,7 +30,7 @@ export const handleTx = (tx) => {
 
 export const gitpodUrlWithPort = (port) => {
     const gitpodUrl = process.env.gitpod_workspace_id + "." + process.env.gitpod_workspace_cluster_host;
-    return "http://" + port.toString() + "-" + gitpodUrl;
+    return "https://" + port.toString() + "-" + gitpodUrl;
 };
 
 export const keplrSuggestChain = async () => {
