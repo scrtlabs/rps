@@ -64,7 +64,7 @@ store-contract-local:
 
 .PHONY: intantiate-local
 instantiate-local:
-	docker exec secretdev secretcli tx compute instantiate 1 '{}' -y  --from a --gas 5000000 --label yo
+	docker exec secretdev secretcli tx compute instantiate 1 '{}' -y  --from a --gas 5000000 --label rps-game
 
 .PHONY: cli-store-contract
 cli-store-contract:
@@ -72,7 +72,7 @@ cli-store-contract:
 
 .PHONY: cli-instantiate
 cli-instantiate:
-	secretd tx compute instantiate 1 '{}' -y  --from a --gas 5000000 --label yo
+	secretd tx compute instantiate 1 '{}' -y  --from a --gas 5000000 --label rps-game
 
 .PHONY: clean
 clean:
