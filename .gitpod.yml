@@ -29,22 +29,22 @@ jetbrains:
 ports:
   - port: 26657
     onOpen: ignore
-    visibility: public
+    visibility: private
   - port: 9090-9091
     onOpen: ignore
   - port: 5000
-    visibility: public
+    visibility: private
     onOpen: ignore
   - port: 1317
     onOpen: ignore
-    visibility: public
+    visibility: private
   - port: 3000
     onOpen: ignore
-    visibility: public
+    visibility: private
   - port: 24000
     onOpen: ignore
   - port: 6060
     onOpen: ignore
   - port: 1316
     onOpen: ignore
-    visibility: public
+    visibility: private
