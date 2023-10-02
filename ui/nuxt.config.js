@@ -10,8 +10,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - rps-vue',
-    title: 'rps-vue',
+    titleTemplate: '%s',
+    title: 'Rock-Paper-Secret!',
     htmlAttrs: {
       lang: 'en',
     },
@@ -41,7 +41,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/dotenv',   
+    '@nuxtjs/dotenv',
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -65,4 +65,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    gitpod_workspace_cluster_host: process.env.GITPOD_WORKSPACE_CLUSTER_HOST,
+    gitpod_workspace_id: process.env.GITPOD_WORKSPACE_ID,
+  }
 }

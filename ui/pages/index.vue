@@ -11,7 +11,17 @@
                         <v-btn :disabled="walletIsConnecting" @click="connect()"> {{ walletIsConnecting ? 'Connecting...' : 'Connect your wallet' }}</v-btn>
                     </template>
                     <template v-else>
-                      <div>Address: {{ shortWalletAddress }}</div>
+                        <v-row class="my-3 px-5" justify="center" align="center">
+                            <div class="mx-1">
+                                Address:  {{ walletAddress }}
+                            </div>
+                            <button @click="copy">
+                                <img class="logo py-1 d-flex" src="~/assets/copy-icon.png" ref="address"/>
+                            </button>
+                            <div class="tooltip_layout">
+                                <span class="tooltip_content" :class="{'show': tooltip_flag}">Copied!</span>
+                            </div>
+                        </v-row>
                       <div><a href="https://faucet.pulsar.scrttestnet.com/" target="_">Get some SCRT</a></div>
                     </template>
                 </div>
@@ -204,6 +214,7 @@ export default {
             validBetRule: [(v) => (v && v >= 1) || 'Minimum bet is 1 $SCRT'],
             validNameRule: [(v) => (v && v.trim().length > 0) || 'Name cannot be empty'],
             validCodeRule: [(v) => (v && v.trim().length > 0) || 'Game code cannot be empty'],
+            tooltip_flag: false,
 
             winner: undefined
         }
@@ -239,7 +250,15 @@ export default {
             });
 
             console.log(test);
+        },
 
+        async copy() {
+            await navigator.clipboard.writeText(this.walletAddress);
+            this.tooltip_flag = true
+            setTimeout(() => {
+                this.tooltip_flag = false
+            }, 1000)
+            console.log("done copying");
         },
 
         restart() {
@@ -320,11 +339,13 @@ export default {
                         }
                     }
                 } catch (err) {
+                    this.newGameError = 'Contract probably does not exist in that address; check log for details';
                     console.log(err)
                 }
 
                 console.log(tx)
             } catch (err) {
+                this.newGameError = 'Contract probably does not exist in that address; check log for details';
                 console.log(err)
             }
             this.isCreatingNewGame = false
