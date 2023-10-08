@@ -10,7 +10,6 @@ You will find:
 * Usage of cw-storage-plus
 * Sending native tokens
 * Storing and reading to/from state
-* How to create a powerful CI with Github Actions
 
 ## Gitpod
 
