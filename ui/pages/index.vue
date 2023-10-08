@@ -22,7 +22,7 @@
                                 <span class="tooltip_content" :class="{'show': tooltip_flag}">Copied!</span>
                             </div>
                         </v-row>
-                      <div><a href="https://faucet.pulsar.scrttestnet.com/" target="_">Get some SCRT</a></div>
+                      <div><a id="faucetLink" target="blank" :href="getFaucetURL()">Get some SCRT</a></div>
                     </template>
                 </div>
             </v-card>
@@ -242,6 +242,13 @@ export default {
         }
     }, // computed
     methods: {
+
+        getFaucetURL() {
+            // Replace "3000" with "5000" in the URL to get to the Faucet
+            const modifiedURL = window.location.href.replace("3000", "5000");
+            // Create the complete faucet URL
+            return `${modifiedURL}/faucet?address=${this.walletAddress}`;
+        },
         async test() {
             let test = await this.secretjs.query.compute.queryContract({
                 contract_address: process.env.NUXT_ENV_CONTRACT_ADDRESS,
@@ -311,6 +318,7 @@ export default {
             }
 
             try {
+
                 let tx = await this.secretjs.tx.compute.executeContract(
                     {
                         sender: this.walletAddress,
@@ -339,13 +347,13 @@ export default {
                         }
                     }
                 } catch (err) {
-                    this.newGameError = 'Contract probably does not exist in that address; check log for details';
+                    this.newGameError = 'Check that wallet has funds and check contract details in .env file; see log for details';
                     console.log(err)
                 }
 
                 console.log(tx)
             } catch (err) {
-                this.newGameError = 'Contract probably does not exist in that address; check log for details';
+                this.newGameError = 'Check that wallet has funds and check contract details in .env file; see log for details';
                 console.log(err)
             }
             this.isCreatingNewGame = false
